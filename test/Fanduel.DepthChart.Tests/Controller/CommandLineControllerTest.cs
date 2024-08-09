@@ -25,5 +25,13 @@ namespace Fanduel.DepthChart.Tests.Controller
 
             Assert.True(methodCalled);
         }
+        
+        [Fact]
+        public void TestExitCommand()
+        {
+            var result = _commandLineController.ProcessCommand("exit");
+
+            Assert.False(result);
+        }
     }
 }

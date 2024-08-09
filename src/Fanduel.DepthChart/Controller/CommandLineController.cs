@@ -14,6 +14,11 @@ public class CommandLineController : ICommandLineController
 
     public bool ProcessCommand(string input)
     {
+        if (string.IsNullOrEmpty(input) || input.ToLower() == "exit")
+        {
+            return false;
+        }
+
         var commandParts = input.Split(new[] { ' ' }, 3);
 
         if (commandParts[0] == "fulldepthchart")
