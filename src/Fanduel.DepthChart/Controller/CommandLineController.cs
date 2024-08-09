@@ -30,6 +30,9 @@ public class CommandLineController : ICommandLineController
             case "add":
                 callAddPlayerCommand(commandParts[1]);
                 break;
+            case "remove":
+                callRemovePlayerCommand(commandParts);
+                break;
             case "fulldepthchart":
                 callFullDepthChartCommand();
                 break;
@@ -60,5 +63,16 @@ public class CommandLineController : ICommandLineController
         }
     }    
     
+    private void callRemovePlayerCommand(string[] arguments) 
+    {
+        if (arguments.Length >= 3)
+        {
+            var position = arguments[1];
+            var playerNumber = arguments[2];
+            var playerName = arguments.Length > 3 ? arguments[3] : "";
 
+            var player = new PlayerModel(number: playerNumber, name: playerName);
+            _depthChartService.removePlayerFromDepthChart(position, player);
+        }
+    }
 }

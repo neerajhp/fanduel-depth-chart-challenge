@@ -45,5 +45,16 @@ namespace Fanduel.DepthChart.Tests.Controller
 
             _depthChartServiceMock.Verify(x => x.addPlayerToDepthChart("QB", It.Is<PlayerModel>(p => p.Number == "11" && p.Name == "Mock Player1"), null), Times.Once);
         }
+        
+        [Fact]
+        public void TestRemovePlayerCommand()
+        {
+            var player = new PlayerModel(number: "11", name: "MockPlayer1");
+            _depthChartServiceMock.Setup(x => x.removePlayerFromDepthChart("QB", player)).Verifiable();
+
+            _commandLineController.ProcessCommand("remove QB 11 MockPlayer1");
+
+            _depthChartServiceMock.Verify(x => x.removePlayerFromDepthChart("QB", It.Is<PlayerModel>(p => p.Number == "11" && p.Name == "MockPlayer1")), Times.Once);
+        }
     }
 }
