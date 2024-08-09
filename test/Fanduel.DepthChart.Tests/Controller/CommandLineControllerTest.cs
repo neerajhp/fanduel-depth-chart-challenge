@@ -2,6 +2,7 @@ using Xunit;
 using Moq;
 using Fanduel.DepthChart.Services;
 using Fanduel.DepthChart.Controller;
+using Fanduel.DepthChart.Models;
 
 namespace Fanduel.DepthChart.Tests.Controller
 {
@@ -32,6 +33,17 @@ namespace Fanduel.DepthChart.Tests.Controller
             var result = _commandLineController.ProcessCommand("exit");
 
             Assert.False(result);
+        }
+        
+        [Fact]
+        public void TestAddPlayerCommand()
+        {
+            var player = new PlayerModel(number: "11", name: "Mock Player1");
+            _depthChartServiceMock.Setup(x => x.addPlayerToDepthChart("QB", player, null)).Verifiable();
+
+            _commandLineController.ProcessCommand("add QB 11 Mock Player1");
+
+            _depthChartServiceMock.Verify(x => x.addPlayerToDepthChart("QB", It.Is<PlayerModel>(p => p.Number == "11" && p.Name == "Mock Player1"), null), Times.Once);
         }
     }
 }
