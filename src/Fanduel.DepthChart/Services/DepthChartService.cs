@@ -71,8 +71,7 @@ public class DepthChartService : IDepthChartService
             Console.WriteLine($"#{backupPlayer.Number} - {backupPlayer.Name}");
         }
     }
-
-
+    
     public void getFullDepthChart()
     {
         foreach (var position in depthChart.playerPositions.Keys)
