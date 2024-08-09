@@ -14,18 +14,30 @@ public class CommandLineController : ICommandLineController
 
     public bool ProcessCommand(string input)
     {
-        if (string.IsNullOrEmpty(input) || input.ToLower() == "exit")
+        if (string.IsNullOrEmpty(input))
         {
-            return false;
+            return true;
         }
 
         var commandParts = input.Split(new[] { ' ' }, 3);
+        var command = commandParts[0].ToLower();
 
-        if (commandParts[0] == "fulldepthchart")
+        switch (command)
         {
-            _depthChartService.getFullDepthChart();
+            case "exit":
+                return false;
+            case "fulldepthchart":
+                callFullDepthChartCommand();
+                break;
+            default:
+                break;
         }
 
         return true;
+    }
+
+    private void callFullDepthChartCommand()
+    {
+        _depthChartService.getFullDepthChart();
     }
 }
