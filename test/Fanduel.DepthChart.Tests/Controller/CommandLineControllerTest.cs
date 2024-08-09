@@ -55,6 +55,17 @@ namespace Fanduel.DepthChart.Tests.Controller
             _commandLineController.ProcessCommand("remove QB 11 MockPlayer1");
 
             _depthChartServiceMock.Verify(x => x.removePlayerFromDepthChart("QB", It.Is<PlayerModel>(p => p.Number == "11" && p.Name == "MockPlayer1")), Times.Once);
+        }        
+        
+        [Fact]
+        public void TestGetBackupsCommand()
+        {
+            var player = new PlayerModel(number: "11", name: "MockPlayer1");
+            _depthChartServiceMock.Setup(x => x.removePlayerFromDepthChart("QB", player)).Verifiable();
+
+            _commandLineController.ProcessCommand("getbackups QB 11 MockPlayer1");
+
+            _depthChartServiceMock.Verify(x => x.getBackups("QB", It.Is<PlayerModel>(p => p.Number == "11" && p.Name == "MockPlayer1")), Times.Once);
         }
     }
 }

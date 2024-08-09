@@ -20,7 +20,7 @@ public class CommandLineController : ICommandLineController
             return true;
         }
 
-        var commandParts = input.Split(new[] { ' ' }, 3);
+        var commandParts = input.Split(new[] { ' ' }, 2);
         var command = commandParts[0].ToLower();
         
         switch (command)
@@ -31,7 +31,10 @@ public class CommandLineController : ICommandLineController
                 callAddPlayerCommand(commandParts[1]);
                 break;
             case "remove":
-                callRemovePlayerCommand(commandParts);
+                callRemovePlayerCommand(commandParts[1]);
+                break;
+            case "getbackups":
+                callGetBackupsCommand(commandParts[1]);
                 break;
             case "fulldepthchart":
                 callFullDepthChartCommand();
@@ -63,16 +66,32 @@ public class CommandLineController : ICommandLineController
         }
     }    
     
-    private void callRemovePlayerCommand(string[] arguments) 
+    private void callRemovePlayerCommand(string arguments) 
     {
-        if (arguments.Length >= 3)
+
+        var argumentParts = arguments.Split(new[] { ' ' }, 3);
+        if (argumentParts.Length >= 2)
         {
-            var position = arguments[1];
-            var playerNumber = arguments[2];
-            var playerName = arguments.Length > 3 ? arguments[3] : "";
+            var position = argumentParts[0];
+            var playerNumber = argumentParts[1];
+            var playerName = argumentParts.Length > 2 ? argumentParts[2] : "";
 
             var player = new PlayerModel(number: playerNumber, name: playerName);
             _depthChartService.removePlayerFromDepthChart(position, player);
+        }
+    }    
+    
+    private void callGetBackupsCommand(string arguments) 
+    {
+        var argumentParts = arguments.Split(new[] { ' ' }, 3);
+        if (argumentParts.Length >= 2)
+        {
+            var position = argumentParts[0];
+            var playerNumber = argumentParts[1];
+            var playerName = argumentParts.Length > 2 ? argumentParts[2] : "";
+
+            var player = new PlayerModel(number: playerNumber, name: playerName);
+            _depthChartService.getBackups(position, player);
         }
     }
 }
