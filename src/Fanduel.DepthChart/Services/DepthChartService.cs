@@ -72,5 +72,15 @@ public class DepthChartService : IDepthChartService
         }
     }
 
-    
+
+    public void getFullDepthChart()
+    {
+        foreach (var position in depthChart.playerPositions.Keys)
+        {
+            var players = depthChart.playerPositions[position];
+            var playerStrings = players.Select(player => $"(#{player.Number}, {player.Name})");
+            var line = $"{position} - {string.Join(",", playerStrings)}";
+            Console.WriteLine(line);
+        }
+    }
 }

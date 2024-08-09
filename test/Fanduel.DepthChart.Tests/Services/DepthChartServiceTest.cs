@@ -17,7 +17,7 @@ namespace Fanduel.DepthChart.Tests.Services
 
         public DepthChartServiceTest()
         {
-            _depthChartModel = new DepthChartModel(positionList: new string[] { "QB" });
+            _depthChartModel = new DepthChartModel(positionList: new string[] { "QB", "RB", "WR"});
             _depthChartService = new DepthChartService(chart: _depthChartModel );
             
             _stringWriter = new StringWriter();
@@ -117,6 +117,24 @@ namespace Fanduel.DepthChart.Tests.Services
 
             Assert.Equal("<NO LIST>", actualDepthChartLines[0]);
         } 
+        
+        [Fact]
+        public void TestGetFullDepthChart()
+        {
+            var mockPlayer1 = new PlayerModel(number: "11", name: "MockPlayer1");
+            var mockPlayer2 = new PlayerModel(number: "22", name: "MockPlayer2");
+            var mockPlayer3 = new PlayerModel(number: "33", name: "MockPlayer3");
+            _depthChartModel.playerPositions["QB"] = new List<PlayerModel> { mockPlayer1, mockPlayer2};
+            _depthChartModel.playerPositions["RB"] = new List<PlayerModel> { mockPlayer3};
+            
+            _depthChartService.getFullDepthChart();
+ 
+            var actualDepthChartLines = _stringWriter.ToString().Split("\n");
+
+            Assert.Equal("QB - (#11, MockPlayer1),(#22, MockPlayer2)", actualDepthChartLines[0]);
+            Assert.Equal("RB - (#33, MockPlayer3)", actualDepthChartLines[1]);
+            Assert.Equal("WR - ", actualDepthChartLines[2]);
+        }
         
     }
 }
