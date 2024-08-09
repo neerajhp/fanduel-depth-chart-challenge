@@ -22,4 +22,27 @@ public class DepthChartService : IDepthChartService
         }
     }
     
+    public List<PlayerModel> removePlayerFromDepthChart(string position, PlayerModel playerModel)
+    {
+        if (!depthChart.playerPositions.ContainsKey(position))
+        {
+            return new List<PlayerModel>() { };
+        }
+        
+        var players = depthChart.playerPositions[position];
+
+        if (!players.Contains(playerModel))
+        {
+            return new List<PlayerModel>() { };
+        }
+        
+        if (players.Contains(playerModel))
+        {
+            players.Remove(playerModel);
+        }
+
+        return players;
+    }
+
+    
 }
