@@ -10,5 +10,15 @@ namespace Fanduel.DepthChart.Models
             Number = number;
             Name = name;
         }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj is PlayerModel otherPlayer)
+            {
+                return Number == otherPlayer.Number && Name == otherPlayer.Name;
+            }
+
+            return false;
+        }
     }
 }
